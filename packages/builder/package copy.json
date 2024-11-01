@@ -1,0 +1,33 @@
+{
+  "name": "@zwoo/dashboard-client",
+  "version": "1.1.0",
+  "description": "A Javascript/Typescript ZRPe dashboard client",
+  "author": "Fabian Kachlock",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zwoo-hq/bots-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zwoo-hq/bots-dashboard/issues"
+  },
+  "homepage": "https://github.com/zwoo-hq/bots-dashboard/blob/main/clients/dashboard-client/README.md",
+  "keywords": [
+    "zwoo",
+    "zrpe",
+    "zrp",
+    "zwoo-bot"
+  ],
+  "module": "dist/dashboard-client.mjs",
+  "types": "dist/main.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.12.5",
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8",
+    "vite-plugin-dts": "^3.8.1"
+  },
+  "packageManager": "^pnpm@8.15.6"
+}
