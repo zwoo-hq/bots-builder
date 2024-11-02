@@ -25,6 +25,12 @@ importers:
 
   packages/create-bot: {}
 
+  packages/playground:
+    dependencies:
+      '@zwoo/bots-builder':
+        specifier: workspace:*
+        version: link:../builder
+
 packages:
 
   '@babel/helper-string-parser@7.25.9':

@@ -1,19 +1,7 @@
-import { BasicBotStateManager } from "./context/basicStateManager";
-import { WholeGameBotStateManager } from "./context/gameStateManager";
 import { Helper } from "./context/helper";
 import { Logger } from "./context/logger";
 import { OnEvent } from "./context/onEvent";
 import { Random } from "./context/rand";
-import {
-  Card,
-  CardColor,
-  CardType,
-  DrawCardEvent,
-  PlaceCardEvent,
-  RequestEndTurnEvent,
-  GetDeckEvent,
-  PlayerDecisionEvent,
-} from "./context/common";
 
 declare global {
   interface Globals {
@@ -27,12 +15,12 @@ declare global {
   declare var CardType: CardType;
 
   declare var globals: Globals;
-  declare class BasicBotStateManager extends BasicBotStateManager {}
-  declare class WholeGameBotStateManager extends WholeGameBotStateManager {}
-  declare class Card extends Card {}
-  declare class DrawCardEvent extends DrawCardEvent {}
-  declare class PlaceCardEvent extends PlaceCardEvent {}
-  declare class RequestEndTurnEvent extends RequestEndTurnEvent {}
-  declare class GetDeckEvent extends GetDeckEvent {}
-  declare class PlayerDecisionEvent extends PlayerDecisionEvent {}
+  const BasicBotStateManager: typeof import("./context/basicStateManager").BasicBotStateManager;
+  const WholeGameBotStateManager: typeof import("./context/gameStateManager").WholeGameBotStateManager;
+  const Card: typeof import("./context/common").Card;
+  const DrawCardEvent: typeof import("./context/common").DrawCardEvent;
+  const PlaceCardEvent: typeof import("./context/common").PlaceCardEvent;
+  const RequestEndTurnEvent: typeof import("./context/common").RequestEndTurnEvent;
+  const GetDeckEvent: typeof import("./context/common").GetDeckEvent;
+  const PlayerDecisionEvent: typeof import("./context/common").PlayerDecisionEvent;
 }

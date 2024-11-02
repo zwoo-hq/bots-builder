@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "A framework for building zwoo bots.",
   "author": "Fabian Kachlock",
-  "files": [
-    "dist"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zwoo-hq/bots-builder.git"
@@ -18,8 +15,17 @@
     "zwoo",
     "zwoo-bot"
   ],
-  "module": "dist/bots-builder.mjs",
+  "files": [
+    "dist",
+    "src/globals.d.ts"
+  ],
+  "module": "dist/bots-builder.js",
   "types": "dist/main.d.ts",
+  "exports": {
+    ".": "./dist/bots-builder.js",
+    "./globals.d.ts": "./src/globals.d.ts"
+  },
+  "type": "module",
   "license": "MIT",
   "scripts": {},
   "devDependencies": {
