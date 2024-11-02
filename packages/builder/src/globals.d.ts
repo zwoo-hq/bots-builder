@@ -7,7 +7,7 @@ declare global {
   interface Globals {
     logger: Logger;
     rand: Random;
-    onEvent: OnEvent;
+    triggerEvent: OnEvent;
     helper: Helper;
   }
 
