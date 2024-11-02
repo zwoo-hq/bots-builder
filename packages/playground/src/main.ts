@@ -1,11 +1,11 @@
-import { BotBase } from "@zwoo/bots-builder";
+import { BotBase, type IncomingMessage } from "@zwoo/bots-builder";
 
 export class Bot extends BotBase {
   private triggerEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;
 
-  public AggregateNotification(message) {
+  public AggregateNotification(message: IncomingMessage) {
     globals.logger.Info("Received message: " + message);
 
     switch (message.Code) {
