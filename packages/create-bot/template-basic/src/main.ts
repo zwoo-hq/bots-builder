@@ -1,9 +1,9 @@
-import { Bot } from "@zwoo/bots-builder";
+import { BotBase } from "@zwoo/bots-builder";
 
 /*
  * This is an example of a bot that plays the game.
  */
-export class MyBot extends Bot {
+export class Bot extends BotBase {
   private onEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;

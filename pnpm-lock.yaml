@@ -10,12 +10,27 @@ importers:
 
   packages/builder:
     devDependencies:
+      '@types/minimist':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@types/node':
         specifier: ^20.12.5
         version: 20.17.5
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
+      minimist:
+        specifier: ^1.2.8
+        version: 1.2.8
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
       typescript:
         specifier: ^5.4.4
         version: 5.6.3
+      unbuild:
+        specifier: ^2.0.0
+        version: 2.0.0(typescript@5.6.3)(vue-tsc@1.8.27(typescript@5.6.3))
       vite:
         specifier: ^5.2.8
         version: 5.4.10(@types/node@20.17.5)

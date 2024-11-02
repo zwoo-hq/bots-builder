@@ -1,6 +1,6 @@
-import { Bot } from "@zwoo/bots-builder";
+import { BotBase } from "@zwoo/bots-builder";
 
-export class MyBot extends Bot {
+export class Bot extends BotBase {
   private triggerEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;
