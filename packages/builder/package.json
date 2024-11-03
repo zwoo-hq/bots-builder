@@ -17,6 +17,7 @@
   ],
   "files": [
     "dist",
+    "src/context.d.ts",
     "cli.js"
   ],
   "module": "dist/index.mjs",
@@ -29,7 +30,8 @@
     "./globals": {
       "import": "./dist/globals.mjs",
       "types": "./dist/globals.d.ts"
-    }
+    },
+    "./context.d.ts": "./src/context.d.ts"
   },
   "type": "module",
   "bin": {

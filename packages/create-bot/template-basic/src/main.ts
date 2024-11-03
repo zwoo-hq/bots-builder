@@ -1,23 +1,15 @@
 import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
-import {
-  DrawCardEvent,
-  GetDeckEvent,
-  globals,
-  PlaceCardEvent,
-  PlayerDecisionEvent,
-  RequestEndTurnEvent,
-  WholeGameBotStateManager,
-} from "@zwoo/bots-builder/globals";
+import { globals, WholeGameBotStateManager } from "@zwoo/bots-builder/globals";
 
 /*
  * This is an example of a bot that plays the game.
  */
-export class Bot extends BotBase {
+export class MyBot extends Bot {
   private triggerEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;
 
-  public AggregateNotification(message) {
+  public AggregateNotification(message: IncomingMessage) {
     switch (message.Code) {
       case ZRPCode.GameStarted:
         this.triggerEvent(ZRPCode.GetHand, new GetDeckEvent());
@@ -95,4 +87,4 @@ export class Bot extends BotBase {
   }
 }
 
-export default Bot;
+export default MyBot;

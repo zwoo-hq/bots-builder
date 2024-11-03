@@ -90,6 +90,7 @@ async function build(input: string, output: string, header?: string) {
       format: "esm",
       allowOverwrite: true,
       entryPoints: [input],
+      external: ["@zwoo/bots-builder/globals"],
       outfile: output,
       banner: {
         js: header ?? "",

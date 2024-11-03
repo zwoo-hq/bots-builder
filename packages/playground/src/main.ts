@@ -1,13 +1,5 @@
 import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
-import {
-  DrawCardEvent,
-  GetDeckEvent,
-  globals,
-  PlaceCardEvent,
-  PlayerDecisionEvent,
-  RequestEndTurnEvent,
-  WholeGameBotStateManager,
-} from "@zwoo/bots-builder/globals";
+import { globals, WholeGameBotStateManager } from "@zwoo/bots-builder/globals";
 
 export class MyBot extends Bot {
   private triggerEvent = globals.triggerEvent;
