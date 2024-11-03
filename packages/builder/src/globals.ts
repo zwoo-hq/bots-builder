@@ -25,5 +25,4 @@ export {
 
 export { BasicBotStateManager } from "./context/basicStateManager";
 export type { BotState } from "./context/basicStateManager";
-
 export { WholeGameBotStateManager } from "./context/gameStateManager";

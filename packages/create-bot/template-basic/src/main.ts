@@ -1,26 +1,32 @@
-import { BotBase } from "@zwoo/bots-builder";
+import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
+import {
+  DrawCardEvent,
+  GetDeckEvent,
+  globals,
+  PlaceCardEvent,
+  PlayerDecisionEvent,
+  RequestEndTurnEvent,
+  WholeGameBotStateManager,
+} from "@zwoo/bots-builder/globals";
 
 /*
  * This is an example of a bot that plays the game.
  */
 export class Bot extends BotBase {
-  private onEvent = globals.triggerEvent;
+  private triggerEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;
 
   public AggregateNotification(message) {
     switch (message.Code) {
       case ZRPCode.GameStarted:
-        // the game started - get the hand
-        this.onEvent(ZRPCode.GetHand, new GetDeckEvent());
+        this.triggerEvent(ZRPCode.GetHand, new GetDeckEvent());
         break;
       case ZRPCode.GetPlayerDecision:
-        // decision requested
         globals.logger.Info("making decision");
         this.makeDecision(message.Payload);
         return;
       case ZRPCode.PlaceCardError:
-        // the placed card was invalid, try the next one
         this.placeCard();
         return;
       default:
@@ -53,22 +59,22 @@ export class Bot extends BotBase {
     if (this.placedCard >= state.Deck.Count) {
       // the last card was not valid, fall back to draw a card
       globals.logger.Info("bailing with draw");
-      this.onEvent(ZRPCode.DrawCard, new DrawCardEvent());
+      this.triggerEvent(ZRPCode.DrawCard, new DrawCardEvent());
       return;
     }
 
     try {
-      this.onEvent(
+      this.triggerEvent(
         ZRPCode.PlaceCard,
         new PlaceCardEvent(
-          globals.toInt(state.Deck[this.placedCard].Color),
-          globals.toInt(state.Deck[this.placedCard].Type)
+          globals.helper.toInt(state.Deck[this.placedCard].Color),
+          globals.helper.toInt(state.Deck[this.placedCard].Type)
         )
       );
 
-      if (state.Deck.Count == 2 && globals.rand.Next(10) > 4) {
+      if (state.Deck.Count == 2 && globals.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
-        this.onEvent(ZRPCode.RequestEndTurn, new RequestEndTurnEvent());
+        this.triggerEvent(ZRPCode.RequestEndTurn, new RequestEndTurnEvent());
       }
     } catch (ex) {
       globals.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
@@ -81,10 +87,12 @@ export class Bot extends BotBase {
    * Each decision request contains a list of options. This bot just picks one at random.
    */
   private makeDecision(data) {
-    const decision = globals.rand.Next(data.Options.Count);
-    this.onEvent(
+    const decision = globals.random.Next(data.Options.Count);
+    this.triggerEvent(
       ZRPCode.ReceiveDecision,
       new PlayerDecisionEvent(data.Type, decision)
     );
   }
 }
+
+export default Bot;

@@ -1,6 +1,7 @@
 import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
 import {
   DrawCardEvent,
+  GetDeckEvent,
   globals,
   PlaceCardEvent,
   PlayerDecisionEvent,
