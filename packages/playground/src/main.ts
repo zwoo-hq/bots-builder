@@ -1,6 +1,14 @@
-import { BotBase, type IncomingMessage } from "@zwoo/bots-builder";
+import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
+import {
+  DrawCardEvent,
+  globals,
+  PlaceCardEvent,
+  PlayerDecisionEvent,
+  RequestEndTurnEvent,
+  WholeGameBotStateManager,
+} from "@zwoo/bots-builder/globals";
 
-export class Bot extends BotBase {
+export class MyBot extends Bot {
   private triggerEvent = globals.triggerEvent;
   private state = new WholeGameBotStateManager();
   private placedCard = -1;
@@ -37,7 +45,7 @@ export class Bot extends BotBase {
   }
 
   private placeCard() {
-    if (globals.rand.Next(10) < 1) {
+    if (globals.random.Next(10) < 1) {
       // bad luck - be dump, just draw
       this.triggerEvent(ZRPCode.DrawCard, new DrawCardEvent());
       return;
@@ -56,12 +64,12 @@ export class Bot extends BotBase {
       this.triggerEvent(
         ZRPCode.PlaceCard,
         new PlaceCardEvent(
-          globals.toInt(state.Deck[this.placedCard].Color),
-          globals.toInt(state.Deck[this.placedCard].Type)
+          globals.helper.toInt(state.Deck[this.placedCard].Color),
+          globals.helper.toInt(state.Deck[this.placedCard].Type)
         )
       );
 
-      if (state.Deck.Count == 2 && globals.rand.Next(10) > 4) {
+      if (state.Deck.Count == 2 && globals.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
         this.triggerEvent(ZRPCode.RequestEndTurn, new RequestEndTurnEvent());
       }
@@ -71,10 +79,12 @@ export class Bot extends BotBase {
   }
 
   private makeDecision(data) {
-    const decision = globals.rand.Next(data.Options.Count);
+    const decision = globals.random.Next(data.Options.Count);
     this.triggerEvent(
       ZRPCode.ReceiveDecision,
       new PlayerDecisionEvent(data.Type, decision)
     );
   }
 }
+
+export default MyBot;

@@ -17,17 +17,19 @@
   ],
   "files": [
     "dist",
-    "src/globals.d.ts",
     "cli.js"
   ],
-  "module": "dist/main.mjs",
-  "types": "dist/main.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/main.mjs",
-      "types": "./dist/main.d.ts"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
-    "./globals.d.ts": "./src/globals.d.ts"
+    "./globals": {
+      "import": "./dist/globals.mjs",
+      "types": "./dist/globals.d.ts"
+    }
   },
   "type": "module",
   "bin": {
@@ -38,8 +40,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "vite build",
-    "build:cli": "unbuild",
+    "build": "unbuild",
+    "dev": "unbuild --stub",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@ import { defineBuildConfig } from "unbuild";
 
 export default defineBuildConfig([
   {
-    entries: ["main"],
+    entries: ["src/index", "src/globals"],
     clean: true,
     declaration: true,
     rollup: {
