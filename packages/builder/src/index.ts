@@ -1,11 +1,8 @@
-import { IncomingMessage } from "./zrp";
+export type { IncomingMessage } from "./zrp";
 
-export abstract class Bot {
-  abstract AggregateNotification(message: IncomingMessage): void;
-  abstract Reset(): void;
-}
+import { Bot } from "./bot";
 
-export type { IncomingMessage };
+export { Bot };
 
 export { BasicBotStateManger } from "./builtin/basicStateManager";
 export type { BasicBotState } from "./builtin/basicStateManager";

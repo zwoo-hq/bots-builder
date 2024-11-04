@@ -7,7 +7,7 @@ import {
 import { globals } from "@zwoo/bots-builder/globals";
 
 export class MyBot extends Bot {
-  private triggerEvent = globals.triggerEvent;
+  protected triggerEvent = globals.triggerEvent;
   private stateManager = new WholeGameBotStateManager();
   private placedCard = -1;
   private lastTriedCard: JsCard | undefined = undefined;
@@ -25,10 +25,10 @@ export class MyBot extends Bot {
         break;
       case ZRPCode.GetPlayerDecision:
         globals.logger.Info("making decision");
-        this.makeDecision(message.Payload);
+        this.makeRandomDecision(message.Payload);
         return;
       case ZRPCode.PlaceCardError:
-        this.placeCard();
+        this.selectCard();
         return;
       default:
         this.stateManager.aggregateNotification(message);
@@ -38,10 +38,7 @@ export class MyBot extends Bot {
     var currentState = this.stateManager.state;
     // turn started
     if (!wasActive && currentState.isActive) {
-      this.triggerEvent(
-        ZRPCode.CreateChatMessage,
-        new ChatMessageEvent("Ich bin dran!!")
-      );
+      this.setChatMessage("Ich bin dran!!");
       this.lastTriedCard = undefined;
     }
 
@@ -52,16 +49,13 @@ export class MyBot extends Bot {
       (this.lastTriedCard?.type === CardType.DrawTwo ||
         this.lastTriedCard?.type === CardType.WildFour)
     ) {
-      this.triggerEvent(
-        ZRPCode.CreateChatMessage,
-        new ChatMessageEvent("Haha du looser ;)")
-      );
+      this.setChatMessage("Haha du looser ;)");
     }
 
     if (currentState.isActive && message.Code != ZRPCode.StateUpdated) {
       globals.logger.Info("starting turn");
       this.placedCard = -1;
-      this.placeCard();
+      this.selectCard();
     }
   }
 
@@ -70,10 +64,10 @@ export class MyBot extends Bot {
     this.stateManager.reset();
   }
 
-  private placeCard() {
+  private selectCard() {
     if (globals.random.Next(10) < 1) {
       // bad luck - be dump, just draw
-      this.triggerEvent(ZRPCode.DrawCard, new DrawCardEvent());
+      this.drawCard();
       return;
     }
 
@@ -82,35 +76,26 @@ export class MyBot extends Bot {
 
     if (this.placedCard >= state.deck.length) {
       globals.logger.Info("bailing with draw");
-      this.triggerEvent(ZRPCode.DrawCard, new DrawCardEvent());
+      this.drawCard();
       return;
     }
 
     try {
       this.lastTriedCard = state.deck[this.placedCard];
-      this.triggerEvent(
-        ZRPCode.PlaceCard,
-        new PlaceCardEvent(
-          globals.helper.toInt(state.deck[this.placedCard].color),
-          globals.helper.toInt(state.deck[this.placedCard].type)
-        )
-      );
+      this.placeCard(state.deck[this.placedCard]);
 
       if (state.deck.length == 2 && globals.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
-        this.triggerEvent(ZRPCode.RequestEndTurn, new RequestEndTurnEvent());
+        this.endTurn();
       }
     } catch (ex) {
       globals.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
     }
   }
 
-  private makeDecision(data: GetPlayerDecisionNotification) {
+  private makeRandomDecision(data: GetPlayerDecisionNotification) {
     const decision = globals.random.Next(data.Options.Count);
-    this.triggerEvent(
-      ZRPCode.ReceiveDecision,
-      new PlayerDecisionEvent(data.Type, decision)
-    );
+    this.makeDecision(data.Type, decision);
   }
 }
 
