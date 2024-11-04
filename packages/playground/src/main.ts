@@ -71,7 +71,7 @@ export class MyBot extends Bot {
     }
   }
 
-  private makeDecision(data) {
+  private makeDecision(data: GetPlayerDecisionNotification) {
     const decision = globals.random.Next(data.Options.Count);
     this.triggerEvent(
       ZRPCode.ReceiveDecision,

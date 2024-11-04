@@ -33,18 +33,3 @@ export enum CardType {
   Wild = 14,
   WildFour = 15,
 }
-
-export class DrawCardEvent {}
-
-export class PlaceCardEvent {}
-
-export class RequestEndTurnEvent {}
-
-export class GetDeckEvent {}
-
-export class PlayerDecisionEvent {
-  public Type: number = 0;
-  public Decision: number = 0;
-
-  public constructor(_type: number, _decision: number) {}
-}

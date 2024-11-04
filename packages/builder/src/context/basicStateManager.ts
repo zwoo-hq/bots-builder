@@ -1,8 +1,9 @@
 import { IncomingMessage } from "http";
 import { Card } from "./common";
+import { List } from "../csInterop/list";
 
 export interface BotState {
-  Deck: Card[];
+  Deck: List<Card>;
   StackTop: Card;
   IsActive: boolean;
 }
