@@ -1,4 +1,4 @@
-import { CardColor, CardType } from "../context/common";
+import { CardColor, CardType } from "../csInterop/card";
 import { Dictionary } from "../csInterop/dictionary";
 import { List } from "../csInterop/list";
 import { UIFeedbackKind, UIFeedbackType } from "./feedback";

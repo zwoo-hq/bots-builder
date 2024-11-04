@@ -1,10 +1,16 @@
 import { List } from "./list";
 
+export type KeyValuePair<TKey, TValue> = {
+  Key: TKey;
+  Value: TValue;
+};
+
 export type Dictionary<TKey extends string | number | symbol, TItem> = Record<
   TKey,
   TItem
 > &
-  DictionaryConstructor<TKey, TItem> & {
+  DictionaryConstructor<TKey, TItem> &
+  Iterable<KeyValuePair<TKey, TItem>> & {
     Count: number;
     Keys: List<TKey>;
     Values: List<TItem>;

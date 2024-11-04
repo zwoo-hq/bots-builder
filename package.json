@@ -4,7 +4,8 @@
   "description": "Helper to build zwoo bots.",
   "private": true,
   "scripts": {
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "dev-cli": "node ./packages/builder/cli.js"
   },
   "keywords": [],
   "license": "MIT",

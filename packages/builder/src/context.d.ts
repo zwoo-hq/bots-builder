@@ -2,7 +2,7 @@ import {
   CardColor as _CardColor,
   CardType as _CardType,
   Card as _Card,
-} from "./context/common";
+} from "./csInterop/card";
 import { List as _List } from "./csInterop/list";
 import { ZRPCode as _ZRPCode } from "./zrp/code";
 import {

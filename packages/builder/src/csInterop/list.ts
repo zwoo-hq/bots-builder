@@ -1,5 +1,6 @@
 export type List<T> = Record<number, T> &
-  ListConstructor<T> & {
+  ListConstructor<T> &
+  Iterable<T> & {
     Capacity: number;
     Count: number;
     Add(item: T): void;
