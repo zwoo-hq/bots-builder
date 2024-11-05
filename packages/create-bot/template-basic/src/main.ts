@@ -1,28 +1,32 @@
-import { Bot, type IncomingMessage } from "@zwoo/bots-builder";
-import { globals, WholeGameBotStateManager } from "@zwoo/bots-builder/globals";
+import {
+  Bot,
+  WholeGameBotStateManager,
+  type IncomingMessage,
+} from "@zwoo/bots-builder";
+import { globals } from "@zwoo/bots-builder/globals";
 
 /*
  * This is an example of a bot that plays the game.
  */
 export class MyBot extends Bot {
-  private triggerEvent = globals.triggerEvent;
-  private state = new WholeGameBotStateManager();
+  protected triggerEvent = globals.triggerEvent;
+  private stateManager = new WholeGameBotStateManager();
   private placedCard = -1;
 
   public AggregateNotification(message: IncomingMessage) {
     switch (message.Code) {
       case ZRPCode.GameStarted:
-        this.triggerEvent(ZRPCode.GetHand, new GetDeckEvent());
+        this.requestDeck()  
         break;
       case ZRPCode.GetPlayerDecision:
         globals.logger.Info("making decision");
-        this.makeDecision(message.Payload);
+        this.makeRandomDecision(message.Payload);
         return;
       case ZRPCode.PlaceCardError:
-        this.placeCard();
+        this.selectCard();
         return;
       default:
-        this.state.AggregateNotification(message);
+        this.stateManager.aggregateNotification(message);
         break;
     }
 
@@ -30,43 +34,37 @@ export class MyBot extends Bot {
     if (currentState.IsActive && message.Code != ZRPCode.StateUpdated) {
       // start the turn - try placing a card
       this.placedCard = -1;
-      this.placeCard();
+      this.selectCard();
     }
   }
 
   public Reset() {
-    this.state.Reset();
+    this.stateManager.reset();
   }
 
   /**
-   * placeCard tries to place a card on the board.
+   * selectCard tries to place a card on the board.
    *
    * It loops over teh cards in the deck one by one and tries to place them on the board.
    * WHen an error occurs, it tries the next card.
    */
-  private placeCard() {
-    var state = this.state.GetState();
+  private selectCard() {
+    var state = this.stateManager.state;
     this.placedCard = this.placedCard + 1;
 
     if (this.placedCard >= state.Deck.Count) {
       // the last card was not valid, fall back to draw a card
       globals.logger.Info("bailing with draw");
-      this.triggerEvent(ZRPCode.DrawCard, new DrawCardEvent());
+      this.drawCard();
       return;
     }
 
     try {
-      this.triggerEvent(
-        ZRPCode.PlaceCard,
-        new PlaceCardEvent(
-          globals.helper.toInt(state.Deck[this.placedCard].Color),
-          globals.helper.toInt(state.Deck[this.placedCard].Type)
-        )
-      );
+      this.placeCard(state.deck[this.placedCard]);
 
       if (state.Deck.Count == 2 && globals.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
-        this.triggerEvent(ZRPCode.RequestEndTurn, new RequestEndTurnEvent());
+        this.endTurn();
       }
     } catch (ex) {
       globals.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
@@ -74,16 +72,13 @@ export class MyBot extends Bot {
   }
 
   /**
-   * makeDecision makes a decision based on the payload of the message.
+   * makeRandomDecision makes a decision based on the payload of the message.
    *
    * Each decision request contains a list of options. This bot just picks one at random.
    */
-  private makeDecision(data) {
+  private makeRandomDecision(data: GetPlayerDecisionNotification) {
     const decision = globals.random.Next(data.Options.Count);
-    this.triggerEvent(
-      ZRPCode.ReceiveDecision,
-      new PlayerDecisionEvent(data.Type, decision)
-    );
+    this.makeDecision(data.Type, decision);
   }
 }
 
