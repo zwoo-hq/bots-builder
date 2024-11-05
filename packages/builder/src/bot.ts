@@ -41,4 +41,20 @@ export abstract class Bot {
       new PlayerDecisionEvent(type, decision)
     );
   }
+
+  protected requestSettings() {
+    this.triggerEvent(ZRPCode.GetAllSettings, new GetSettingsEvent());
+  }
+
+  protected requestDeck() {
+    this.triggerEvent(ZRPCode.GetHand, new GetDeckEvent());
+  }
+
+  protected requestPlayers() {
+    this.triggerEvent(ZRPCode.GetCardAmount, new GetPlayerStateEvent());
+  }
+
+  protected requestPile() {
+    this.triggerEvent(ZRPCode.GetPileTop, new GetPileTopEvent());
+  }
 }

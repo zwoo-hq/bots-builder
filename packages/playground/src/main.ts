@@ -19,9 +19,10 @@ export class MyBot extends Bot {
   public AggregateNotification(message: IncomingMessage) {
     globals.logger.Info("Received message: " + message);
     const wasActive = this.stateManager.state.isActive;
+
     switch (message.Code) {
       case ZRPCode.GameStarted:
-        this.triggerEvent(ZRPCode.GetHand, new GetDeckEvent());
+        this.requestDeck()
         break;
       case ZRPCode.GetPlayerDecision:
         globals.logger.Info("making decision");
@@ -38,7 +39,7 @@ export class MyBot extends Bot {
     var currentState = this.stateManager.state;
     // turn started
     if (!wasActive && currentState.isActive) {
-      this.setChatMessage("Ich bin dran!!");
+      this.setChatMessage("Ich bin dran!");
       this.lastTriedCard = undefined;
     }
 
