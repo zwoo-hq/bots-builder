@@ -4,8 +4,8 @@
   "private": true,
   "description": "An awesome zwoo bot.",
   "scripts": {
-    "build": "zwoo-bots-builder build",
-    "validate": "zwoo-bots-builder build"
+    "build": "zwoo-bots-builder build -f ./src/main.ts",
+    "validate": "zwoo-bots-builder validate ./src/main.ts"
   },
   "dependencies": {
     "@zwoo/bots-builder": "^1.0.0"

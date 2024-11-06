@@ -9,6 +9,10 @@ importers:
   .: {}
 
   packages/builder:
+    dependencies:
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
     devDependencies:
       '@types/minimist':
         specifier: ^1.2.5
@@ -16,9 +20,6 @@ importers:
       '@types/node':
         specifier: ^20.12.5
         version: 20.17.5
-      esbuild:
-        specifier: ^0.24.0
-        version: 0.24.0
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
@@ -36,7 +37,7 @@ importers:
         version: 5.4.10(@types/node@20.17.5)
       vite-plugin-dts:
         specifier: ^3.8.1
-        version: 3.9.1(@types/node@20.17.5)(rollup@4.24.3)(typescript@5.6.3)(vite@5.4.10(@types/node@20.17.5))
+        version: 3.9.1(@types/node@20.17.5)(rollup@3.29.5)(typescript@5.6.3)(vite@5.4.10(@types/node@20.17.5))
 
   packages/create-bot:
     devDependencies:
@@ -2131,14 +2132,6 @@ snapshots:
     optionalDependencies:
       rollup: 3.29.5
 
-  '@rollup/pluginutils@5.1.3(rollup@4.24.3)':
-    dependencies:
-      '@types/estree': 1.0.6
-      estree-walker: 2.0.2
-      picomatch: 4.0.2
-    optionalDependencies:
-      rollup: 4.24.3
-
   '@rollup/rollup-android-arm-eabi@4.24.3':
     optional: true
 
@@ -3156,10 +3149,10 @@ snapshots:
 
   validator@13.12.0: {}
 
-  vite-plugin-dts@3.9.1(@types/node@20.17.5)(rollup@4.24.3)(typescript@5.6.3)(vite@5.4.10(@types/node@20.17.5)):
+  vite-plugin-dts@3.9.1(@types/node@20.17.5)(rollup@3.29.5)(typescript@5.6.3)(vite@5.4.10(@types/node@20.17.5)):
     dependencies:
       '@microsoft/api-extractor': 7.43.0(@types/node@20.17.5)
-      '@rollup/pluginutils': 5.1.3(rollup@4.24.3)
+      '@rollup/pluginutils': 5.1.3(rollup@3.29.5)
       '@vue/language-core': 1.8.27(typescript@5.6.3)
       debug: 4.3.7
       kolorist: 1.8.0
