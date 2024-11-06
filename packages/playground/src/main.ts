@@ -4,10 +4,8 @@ import {
   WholeGameBotStateManager,
   type IncomingMessage,
 } from "@zwoo/bots-builder";
-import { globals } from "@zwoo/bots-builder/globals";
 
 export class MyBot extends Bot {
-  protected triggerEvent = globals.triggerEvent;
   private stateManager = new WholeGameBotStateManager();
   private placedCard = -1;
   private lastTriedCard: JsCard | undefined = undefined;
@@ -17,15 +15,15 @@ export class MyBot extends Bot {
   }
 
   public AggregateNotification(message: IncomingMessage) {
-    globals.logger.Info("Received message: " + message);
+    this.logger.Info("Received message: " + message);
     const wasActive = this.stateManager.state.isActive;
 
     switch (message.Code) {
       case ZRPCode.GameStarted:
-        this.requestDeck()
+        this.requestDeck();
         break;
       case ZRPCode.GetPlayerDecision:
-        globals.logger.Info("making decision");
+        this.logger.Info("making decision");
         this.makeRandomDecision(message.Payload);
         return;
       case ZRPCode.PlaceCardError:
@@ -54,19 +52,19 @@ export class MyBot extends Bot {
     }
 
     if (currentState.isActive && message.Code != ZRPCode.StateUpdated) {
-      globals.logger.Info("starting turn");
+      this.logger.Info("starting turn");
       this.placedCard = -1;
       this.selectCard();
     }
   }
 
   public Reset() {
-    globals.logger.Info("Resetting bot");
+    this.logger.Info("Resetting bot");
     this.stateManager.reset();
   }
 
   private selectCard() {
-    if (globals.random.Next(10) < 1) {
+    if (this.random.Next(10) < 1) {
       // bad luck - be dump, just draw
       this.drawCard();
       return;
@@ -76,7 +74,7 @@ export class MyBot extends Bot {
     this.placedCard = this.placedCard + 1;
 
     if (this.placedCard >= state.deck.length) {
-      globals.logger.Info("bailing with draw");
+      this.logger.Info("bailing with draw");
       this.drawCard();
       return;
     }
@@ -85,17 +83,17 @@ export class MyBot extends Bot {
       this.lastTriedCard = state.deck[this.placedCard];
       this.placeCard(state.deck[this.placedCard]);
 
-      if (state.deck.length == 2 && globals.random.Next(10) > 4) {
+      if (state.deck.length == 2 && this.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
         this.endTurn();
       }
     } catch (ex) {
-      globals.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
+      this.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
     }
   }
 
   private makeRandomDecision(data: GetPlayerDecisionNotification) {
-    const decision = globals.random.Next(data.Options.Count);
+    const decision = this.random.Next(data.Options.Count);
     this.makeDecision(data.Type, decision);
   }
 }

@@ -3,23 +3,21 @@ import {
   WholeGameBotStateManager,
   type IncomingMessage,
 } from "@zwoo/bots-builder";
-import { globals } from "@zwoo/bots-builder/globals";
 
 /*
  * This is an example of a bot that plays the game.
  */
 export class MyBot extends Bot {
-  protected triggerEvent = globals.triggerEvent;
   private stateManager = new WholeGameBotStateManager();
   private placedCard = -1;
 
   public AggregateNotification(message: IncomingMessage) {
     switch (message.Code) {
       case ZRPCode.GameStarted:
-        this.requestDeck()  
+        this.requestDeck();
         break;
       case ZRPCode.GetPlayerDecision:
-        globals.logger.Info("making decision");
+        this.logger.Info("making decision");
         this.makeRandomDecision(message.Payload);
         return;
       case ZRPCode.PlaceCardError:
@@ -54,7 +52,7 @@ export class MyBot extends Bot {
 
     if (this.placedCard >= state.Deck.Count) {
       // the last card was not valid, fall back to draw a card
-      globals.logger.Info("bailing with draw");
+      this.logger.Info("bailing with draw");
       this.drawCard();
       return;
     }
@@ -62,12 +60,12 @@ export class MyBot extends Bot {
     try {
       this.placeCard(state.deck[this.placedCard]);
 
-      if (state.Deck.Count == 2 && globals.random.Next(10) > 4) {
+      if (state.Deck.Count == 2 && this.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
         this.endTurn();
       }
     } catch (ex) {
-      globals.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
+      this.logger.Error("cant place card [" + this.placedCard + "]: " + ex);
     }
   }
 
@@ -77,7 +75,7 @@ export class MyBot extends Bot {
    * Each decision request contains a list of options. This bot just picks one at random.
    */
   private makeRandomDecision(data: GetPlayerDecisionNotification) {
-    const decision = globals.random.Next(data.Options.Count);
+    const decision = this.random.Next(data.Options.Count);
     this.makeDecision(data.Type, decision);
   }
 }

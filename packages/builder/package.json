@@ -27,10 +27,6 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./globals": {
-      "import": "./dist/globals.mjs",
-      "types": "./dist/globals.d.ts"
-    },
     "./context.d.ts": "./src/context.d.ts"
   },
   "type": "module",
