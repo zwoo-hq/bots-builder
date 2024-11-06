@@ -6,27 +6,23 @@ import colors from "picocolors";
 
 const { cyan, magenta, red, blue, gray, green } = colors;
 
-const mockGlobalContext =
-  "var globals = { logger: {}, onEvent: () => {}, rand: {}, toInt: () => {}}; class WholeGameBotStateManager {}; class BasicBotStateManager {};";
-
 const argv = minimist<{
   template?: string;
   help?: boolean;
 }>(process.argv.slice(2), {
   default: { help: false },
-  alias: { h: "help", o: "out", f: "file" },
+  alias: { h: "help", o: "out" },
   string: ["_"],
 });
 
 const helpMessage = `\
-Usage: zwoo-bots-builder [COMMAND] [OPTION]...
+Usage: zwoo-bots-builder [COMMAND] [OPTION]... FILE
 
 Build tools for zwoo bots.
 
 Options:
-  -f, --file FILE        the entrypoint of your bot
   -o, --out  FILE        the output file
-  -h, --help FILE        print this help message
+  -h, --help             print this help message
 
 Available commands:
 ${cyan("build")}         build your bot
@@ -34,6 +30,7 @@ ${magenta("validate")}      validate you bot`;
 
 async function init() {
   const argCommand = argv._[0];
+  const fileArg = argv._[1];
 
   const help = argv.help;
   if (help) {
@@ -42,9 +39,9 @@ async function init() {
   }
 
   if (argCommand === "build") {
-    const file = argv.file || argv.f;
+    const file = fileArg;
     if (!file) {
-      console.log(`${red("ERROR")} missing required argument: ${blue(file)}"`);
+      console.log(`${red("ERROR")} missing required argument: ${blue("FILE")}`);
       return;
     }
     const input = path.resolve(file);
@@ -55,9 +52,9 @@ async function init() {
     await build(input, output);
     console.log(`${green("Done!")} your bot is ready at ${blue(output)}`);
   } else if (argCommand === "validate") {
-    const file = argv.file || argv.f;
+    const file = fileArg;
     if (!file) {
-      console.log(`${red("ERROR")} missing required argument: ${blue(file)}"`);
+      console.log(`${red("ERROR")} missing required argument: ${blue("FILE")}`);
       return;
     }
     const input = path.resolve(file);
@@ -77,7 +74,7 @@ async function init() {
   }
 }
 
-async function build(input: string, output: string, header?: string) {
+async function build(input: string, output: string) {
   let buildFailed = false;
 
   try {
@@ -85,15 +82,11 @@ async function build(input: string, output: string, header?: string) {
     await esbuild.build({
       platform: "browser",
       bundle: true,
-      minifyWhitespace: true,
-      minifySyntax: true,
+      minify: true,
       format: "esm",
       allowOverwrite: true,
       entryPoints: [input],
       outfile: output,
-      banner: {
-        js: header ?? "",
-      },
     });
   } catch (error) {
     buildFailed = true;
@@ -112,7 +105,7 @@ async function validate(input: string) {
     `zwoo-bots-builder-temp-validate_${randomString}.mjs`
   );
 
-  await build(input, tmpOut, mockGlobalContext);
+  await build(input, tmpOut);
 
   let validateFailed = false;
 
@@ -136,16 +129,26 @@ async function validate(input: string) {
         logValidateSuccess("can construct Bot instance");
       }
 
+      // check if the bot has still has the setup function
+      if (typeof module.default._setupEnvironment !== "function") {
+        logValidateError(
+          "missing '_setupEnvironment' static function on class"
+        );
+        validateFailed = true;
+      } else {
+        logValidateSuccess("class has static '_setupEnvironment' method");
+      }
+
       // check if the object has the required methods
       if (typeof botInstance.AggregateNotification !== "function") {
-        logValidateError("missing 'AggregateNotification' method");
+        logValidateError("missing 'AggregateNotification' method on instance");
         validateFailed = true;
       } else {
         logValidateSuccess("instance has 'AggregateNotification' method");
       }
 
       if (typeof botInstance.Reset !== "function") {
-        logValidateError("missing 'Reset' method");
+        logValidateError("missing 'Reset' method on instance");
         validateFailed = true;
       } else {
         logValidateSuccess("instance has 'Reset' method");

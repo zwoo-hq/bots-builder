@@ -1,9 +1,9 @@
 import { JsCard } from "./builtin/jsTypes";
 import { IncomingMessage } from "./zrp";
-import { globals } from "./globals";
+import { _setupEnvironment, globals } from "./globals";
 
 export abstract class Bot {
-  // keep the as Globals line here, so that the global namespace is available
+  static _setupEnvironment = _setupEnvironment;
 
   /**
    * Send a message to the game

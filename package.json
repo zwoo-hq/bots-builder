@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r build",
-    "dev-cli": "node ./packages/builder/cli.js"
+    "dev-cli": "node ./packages/builder/cli.js",
+    "publish": "pnpm -r publish"
   },
   "keywords": [],
   "license": "MIT",
