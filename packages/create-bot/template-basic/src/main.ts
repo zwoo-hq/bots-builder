@@ -28,7 +28,7 @@ export class MyBot extends Bot {
         break;
     }
 
-    var currentState = this.state.GetState();
+    var currentState = this.stateManager.GetState();
     if (currentState.IsActive && message.Code != ZRPCode.StateUpdated) {
       // start the turn - try placing a card
       this.placedCard = -1;
@@ -50,7 +50,7 @@ export class MyBot extends Bot {
     var state = this.stateManager.state;
     this.placedCard = this.placedCard + 1;
 
-    if (this.placedCard >= state.Deck.Count) {
+    if (this.placedCard >= state.deck.length) {
       // the last card was not valid, fall back to draw a card
       this.logger.Info("bailing with draw");
       this.drawCard();
@@ -60,7 +60,7 @@ export class MyBot extends Bot {
     try {
       this.placeCard(state.deck[this.placedCard]);
 
-      if (state.Deck.Count == 2 && this.random.Next(10) > 4) {
+      if (state.deck.length == 2 && this.random.Next(10) > 4) {
         // after placing this card only on card will be left + 50% chance to miss
         this.endTurn();
       }

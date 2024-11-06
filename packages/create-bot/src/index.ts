@@ -176,7 +176,7 @@ async function init() {
       break;
     default:
       console.log(blue(`  ${pkgManager} install`));
-      console.log(blue(`  ${pkgManager} run dev`));
+      console.log(blue(`  ${pkgManager} run validate`));
       break;
   }
   console.log();

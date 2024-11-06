@@ -17,7 +17,7 @@
   ],
   "files": [
     "dist",
-    "src/context.d.ts",
+    "src",
     "cli.js"
   ],
   "module": "dist/index.mjs",
