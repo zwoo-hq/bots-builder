@@ -28,8 +28,8 @@ export class MyBot extends Bot {
         break;
     }
 
-    var currentState = this.stateManager.GetState();
-    if (currentState.IsActive && message.Code != ZRPCode.StateUpdated) {
+    var currentState = this.stateManager.getState();
+    if (currentState.isActive && message.Code != ZRPCode.StateUpdated) {
       // start the turn - try placing a card
       this.placedCard = -1;
       this.selectCard();
