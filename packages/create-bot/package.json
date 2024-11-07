@@ -1,6 +1,6 @@
 {
   "name": "@zwoo/create-bot",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A script for scaffolding a new zwoo bot projects.",
   "author": "Fabian Kachlock",
   "license": "MIT",

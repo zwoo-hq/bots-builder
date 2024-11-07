@@ -8,6 +8,6 @@
     "validate": "zwoo-bots-builder validate ./src/main.ts"
   },
   "dependencies": {
-    "@zwoo/bots-builder": "^0.3.0"
+    "@zwoo/bots-builder": "^1.0.0"
   }
 }
