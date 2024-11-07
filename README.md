@@ -177,3 +177,16 @@ interface Logger {
 
 > [!TIP]
 > Calling `triggerEvent` is only recommended for advanced use cases. The utilities provided by the `Bot` class are sufficient for most bots. For the correct usage of ZRPCodes and Models, see the [ZRP documentation](https://zwoo.igd20.de/docs/api/zrp.html)
+
+
+---
+
+License: [MIT](./LICENSE)
+
+Copyright © 2024-present Fabian Kachlock
+
+---
+
+ZWOO ist eine Marke der IGD 2.0 UG (haftungsbeschränkt)
+
+Impressum/Imprint: https://zwoo.igd20.de/imprint
