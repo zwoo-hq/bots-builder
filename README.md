@@ -1,4 +1,6 @@
-# bots-builder
+![Header image](.github/assets/bots-builder-social-image.png)
+
+# zwoo-hq/bots-builder
 
 Packages related for building zwoo bots.
 
