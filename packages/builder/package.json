@@ -13,7 +13,8 @@
   "homepage": "https://github.com/zwoo-hq/bots-bots-builder/blob/main/README.md",
   "keywords": [
     "zwoo",
-    "zwoo-bot"
+    "zwoo-bot",
+    "zrp"
   ],
   "files": [
     "dist",
@@ -43,6 +44,9 @@
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
+  "dependencies": {
+    "esbuild": "^0.24.0"
+  },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
     "@types/node": "^20.12.5",
@@ -53,8 +57,5 @@
     "vite": "^5.2.8",
     "vite-plugin-dts": "^3.8.1"
   },
-  "packageManager": "pnpm@9.12.0+sha256.a61b67ff6cc97af864564f4442556c22a04f2e5a7714fbee76a1011361d9b726",
-  "dependencies": {
-    "esbuild": "^0.24.0"
-  }
+  "packageManager": "pnpm@9.12.0+sha256.a61b67ff6cc97af864564f4442556c22a04f2e5a7714fbee76a1011361d9b726"
 }

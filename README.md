@@ -15,6 +15,8 @@ You can create a new bot using the `@zwoo/create-bot` cli tool.
 
 ```bash
 npx @zwoo/create-bot
+yarn dlx @zwoo/create-bot
+pnpm dlx @zwoo/create-bot
 ```
 
 After this, you can switch into the newly created bot project and start building your bot.
@@ -26,28 +28,31 @@ cd <my-bot>
 You can build your bot using the `zwoo-bots-builder` cli tool.
 
 ```bash
-npm build 
-# or 
+npm run build 
+yarn build 
+pnpm build 
 ```
 
-Or validate your bot. This checks, that the produced module is valid an able to run in the zwoo environment.
+or validate your bot. This checks, that the produced module is valid an able to run in the zwoo environment.
 
 ```bash
-npm validate
+npm run validate
+yarn validate
+pnpm validate
 ```
 
-Alternatively, you can use the `npx` command to use a global installation of the cli tool.
-
-> [!WARNING]
-> Using the global CLI might not be version compatible.
+Alternatively, you can use the `npx`|`yarn dlx`|`pnpm dlx` command to use a global installation of the cli tool.
 
 ```bash
 npx @zwoo/bots-builder build src/main.ts
 ```
 
+> [!WARNING]
+> Using the global CLI might not be version compatible.
+
 ## Development
 
-Ac the core, your bot is a javascript class that implements the `Bot` class from the `@zwoo/bots-builder` package. The abstract class `Bot` serves two purposes:
+At the core, your bot is a javascript class that implements the `Bot` class from the `@zwoo/bots-builder` package. The abstract class `Bot` serves two purposes:
 
 1. It defines the interface for the custom bot to implement.
 2. It provides a set of utility functions to interact with the zwoo server.
@@ -75,7 +80,7 @@ The `AggregateNotification` method is called whenever a new message is received 
 
 The `Reset` method is called when the bot state should reset. It is usually called after a game finished and a new game is about to start.
 
-Another crucial part of the development of zwoo bots is the `JsCard` class. The `JsCard` class is a abstraction on top of the different ways to represent cards in zwoo. It combines all in a single class, provides utility functions and allow a consistent way to interact with.
+Another crucial part of the development of zwoo bots is the `JsCard` class. The `JsCard` class is a abstraction on top of the different ways to represent cards in zwoo. It combines all in a single class, provides utility functions and allows a consistent way to interact with cards.
 
 ```typescript
 // you can create a new card like this
@@ -86,9 +91,15 @@ const card = new JsCard(data.PileTop) // data: StateUpdateNotification
 
 Its recommend to use the `JsCard` class for all interactions with cards from javascript. For more information or usage examples, see [`./packages/builder/src/builtin/basicStateManager.ts`](./packages/builder/src/builtin/basicStateManager.ts) 
 
+Using `JsCard` you can also compare cards. The method also accepts all types of card representations and implicitly converts them to `JsCard` objects.
+
+```typescript
+card.equals(new JsCard(...))
+card.equals(data.PileTop)
+```
 ## Provided utilities
 
-The `Bot` class provides a set of utility functions to interact with zwoo, the game and exposed apis:
+The `Bot` class provides a set of utility functions to interact with zwoo, the game and exposed APIs:
 
 #### `placeCard(card: JsCard): void;`
 
@@ -143,7 +154,7 @@ interface Helper {
 ```
 
 > [!NOTE]
-> `toInt` makes a c# cast on the argument to `int`. This is primarily used for casting enums to integers.
+> `toInt` makes a c# cast on the argument to `int`. This is primarily used for casting enums to integers and wont work for all types (eq. strings).
 
 #### `logger: Logger;`
 

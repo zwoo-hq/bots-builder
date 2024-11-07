@@ -1,13 +1,26 @@
 {
   "name": "@zwoo/create-bot",
   "version": "0.3.0",
-  "description": "A script to create a new zwoo bot.",
+  "description": "A script for scaffolding a new zwoo bot projects.",
   "author": "Fabian Kachlock",
   "license": "MIT",
   "type": "module",
   "bin": {
     "create-zwoo-bot": "index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zwoo-hq/bots-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zwoo-hq/bots-bots-builder/issues"
+  },
+  "homepage": "https://github.com/zwoo-hq/bots-bots-builder/blob/main/README.md",
+  "keywords": [
+    "zwoo",
+    "zwoo-bot",
+    "zrp"
+  ],
   "files": [
     "index.js",
     "template-*",

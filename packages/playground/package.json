@@ -1,7 +1,7 @@
 {
-  "name": "bots-builder-playground",
+  "name": "@zwoo/bots-builder-playground",
   "version": "0.0.0",
-  "description": "A script to create a new zwoo bot.",
+  "description": "A place to play with bots.",
   "private": true,
   "scripts": {},
   "keywords": [],
